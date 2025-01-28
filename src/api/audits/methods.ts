@@ -128,7 +128,13 @@ async function runAudit(
   try {
     logger.debug('Launching Chrome with Puppeteer ...');
     const puppeteerOptions: puppeteer.PuppeteerNodeLaunchOptions = {
-      args: [`--remote-debugging-port=${chromePort}`, '--no-sandbox'],
+      args: [
+        `--remote-debugging-port=${chromePort}`,
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--single-process',
+      ],
     };
     if (chromePath) {
       puppeteerOptions.executablePath = chromePath;
