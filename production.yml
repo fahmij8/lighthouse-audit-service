@@ -1,5 +1,5 @@
 # docker-compose.yml
-version: "3.1"
+version: '3.1'
 
 services:
   db:
@@ -10,7 +10,9 @@ services:
       POSTGRES_PASSWORD: example
 
   lighthouse:
-    build: .
+    build:
+      context: .
+      dockerfile: compose/production/Dockerfile
     environment:
       PGHOST: db
       PGUSER: dbuser
@@ -18,4 +20,4 @@ services:
       LAS_PORT: 4008
       LAS_CORS: true
     ports:
-      - "4008:4008"
+      - '4008:4008'
