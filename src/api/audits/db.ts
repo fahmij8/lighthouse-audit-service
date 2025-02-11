@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 import SQL from 'sql-template-strings';
-import { LHR } from 'lighthouse';
 
 import { NotFoundError } from '../../errors';
 import { DbConnectionType } from '../../db';
 import { Audit } from './models';
 import { ListRequest, addListRequestToQuery } from '../listHelpers';
+
+type LHR = any;
 
 export interface AuditRow {
   id: string;

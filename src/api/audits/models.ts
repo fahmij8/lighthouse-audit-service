@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { LHR, LighthouseCategory } from 'lighthouse';
 import { v4 as uuid } from 'uuid';
 import { Logger } from 'winston';
 
 import parentLogger from '../../logger';
 import { AuditRow } from './db';
+
+type LHR = any;
+type LighthouseCategory = any;
 
 export interface AuditParams {
   id: string;
