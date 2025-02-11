@@ -1,25 +1,17 @@
 # everything below sets up and runs lighthouse
-FROM node:16-bullseye-slim
+FROM node:20-bullseye-slim
 
-# Install Chromium and required dependencies
-RUN apt-get update && apt-get install -y \
-    chromium \
-    chromium-sandbox \
-    fonts-ipafont-gothic \
-    fonts-wqy-zenhei \
-    fonts-thai-tlwg \
-    fonts-kacst \
-    fonts-freefont-ttf \
-    dumb-init \
+# Install Chromium and other dependencies
+RUN apt-get update \
+    && apt-get install -y chromium fonts-ipafont-gothic fonts-wqy-zenhei \
+       fonts-thai-tlwg fonts-kacst fonts-freefont-ttf dumb-init \
     --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-# Configure environment variables for Puppeteer
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
-ENV CHROME_PATH "/usr/bin/chromium"
-ENV PUPPETEER_EXECUTABLE_PATH "/usr/bin/chromium"
-# Additional flags needed for running Chromium in Docker
-ENV PUPPETEER_ARGS="--no-sandbox,--disable-gpu,--disable-dev-shm-usage"
+# Set environment variables for Puppeteer
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV CHROME_PATH=/usr/bin/chromium
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 USER node
 
@@ -38,7 +30,7 @@ COPY --chown=node:node src ./src
 COPY --chown=node:node tsconfig.json .
 RUN yarn build
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 # prune out dev dependencies now that build has completed
 RUN yarn install --production
